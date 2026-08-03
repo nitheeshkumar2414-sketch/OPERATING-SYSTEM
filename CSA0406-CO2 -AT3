@@ -1,0 +1,312 @@
+NAME:P.Nitheesh Kumar
+REG NO:192524051
+COURSE:OPERATING SYSTEM
+CODE:CSA0406
+
+Q1. Hospital Patient Billing SystemProgram Design & ApproachTo implement the hospital billing system,
+we use an Object-Oriented Programming (OOP) approach in Java with a dedicated class to manage
+patient data and calculation methods.Data Members: patientId, patientName, roomType, daysAdmitted,
+and treatmentCharges.Logic:Room charges are calculated dynamically based on the roomType string 
+(General = ₹1,500/day, Special = ₹3,000/day).Total hospital bill = Room charges + Treatment charges.
+Java Source CodeJavaimport java.util.Scanner;
+
+class Patient {
+    String patientId;
+    String patientName;
+    String roomType;
+    int daysAdmitted;
+    double treatmentCharges;
+
+    // 1. Read patient details
+    void readDetails() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter Patient ID: ");
+        patientId = scanner.nextLine();
+        System.out.print("Enter Patient Name: ");
+        patientName = scanner.nextLine();
+        System.out.print("Enter Room Type (General/Special): ");
+        roomType = scanner.nextLine();
+        System.out.print("Enter Number of Days Admitted: ");
+        daysAdmitted = scanner.nextInt();
+        System.out.print("Enter Treatment Charges: ");
+        treatmentCharges = scanner.nextDouble();
+    }
+
+    // 2. Calculate room charges based on room type
+    double calculateRoomCharges() {
+        if (roomType.equalsIgnoreCase("Special")) {
+            return daysAdmitted * 3000.0;
+        } else {
+            return daysAdmitted * 1500.0;
+        }
+    }
+
+    // 3. Calculate total hospital bill
+    double calculateTotalBill() {
+        return calculateRoomCharges() + treatmentCharges;
+    }
+
+    // 4. Display patient billing details
+    void displayBillingDetails() {
+        System.out.println("\n--- Hospital Patient Billing Details ---");
+        System.out.println("Patient ID       : " + patientId);
+        System.out.println("Patient Name     : " + patientName);
+        System.out.println("Room Type        : " + roomType);
+        System.out.println("Days Admitted    : " + daysAdmitted);
+        System.out.println("Room Charges     : ₹" + calculateRoomCharges());
+        System.out.println("Treatment Charges: ₹" + treatmentCharges);
+        System.out.println("Total Bill Amount: ₹" + calculateTotalBill());
+    }
+}
+
+public class HospitalBillingSystem {
+    public static void main(String[] args) {
+        Patient patient = new Patient();
+        patient.readDetails();
+        patient.displayBillingDetails();
+    }
+}
+
+
+Q2. Airline Ticket Reservation SystemProgram Design & ApproachThis system handles passenger 
+reservations, incorporates a bulk-booking discount rule, and computes the final tax breakdown.
+Data Members: passengerId, passengerName, flightNumber, ticketFare, and numberOfTickets.
+Logic:Total base ticket cost = ticketFare $\times$ numberOfTickets.If numberOfTickets $> 5$,
+a 5% discount is deducted from the base cost.GST of 12% is applied to the discounted total amount.
+Java Source CodeJavaimport java.util.Scanner;
+
+class AirlineReservation {
+    String passengerId;
+    String passengerName;
+    String flightNumber;
+    double ticketFare;
+    int numberOfTickets;
+
+    // 1. Read passenger details
+    void readPassengerDetails() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter Passenger ID: ");
+        passengerId = scanner.nextLine();
+        System.out.print("Enter Passenger Name: ");
+        passengerName = scanner.nextLine();
+        System.out.print("Enter Flight Number: ");
+        flightNumber = scanner.nextLine();
+        System.out.print("Enter Ticket Fare: ");
+        ticketFare = scanner.nextDouble();
+        System.out.print("Enter Number of Tickets: ");
+        numberOfTickets = scanner.nextInt();
+    }
+
+    // 2 & 3. Calculate total ticket cost with bulk discount logic
+    double calculateCost() {
+        double baseCost = ticketFare * numberOfTickets;
+        if (numberOfTickets > 5) {
+            baseCost = baseCost - (baseCost * 0.05); // Apply 5% discount
+        }
+        return baseCost;
+    }
+
+    // 4. Display booking and payment details (including 12% GST)
+    void displayBookingDetails() {
+        double discountedCost = calculateCost();
+        double gstAmount = discountedCost * 0.12;
+        double finalAmount = discountedCost + gstAmount;
+
+        System.out.println("\n--- Airline Ticket Reservation Details ---");
+        System.out.println("Passenger ID    : " + passengerId);
+        System.out.println("Passenger Name  : " + passengerName);
+        System.out.println("Flight Number   : " + flightNumber);
+        System.out.println("Tickets Booked  : " + numberOfTickets);
+        System.out.println("Subtotal        : ₹" + discountedCost);
+        System.out.println("GST (12%)       : ₹" + gstAmount);
+        System.out.println("Final Payable   : ₹" + finalAmount);
+    }
+}
+
+public class AirlineReservationSystem {
+    public static void main(String[] args) {
+        AirlineReservation reservation = new AirlineReservation();
+        reservation.readPassengerDetails();
+        reservation.displayBookingDetails();
+    }
+}
+Q3. Vehicle Rental Management SystemProgram Design & ApproachCalculates commercial rental rates based
+on category types, complete with optional penalty integrations.Data Members: customerId, customerName,
+vehicleType, and rentalDays.Logic:Rental Rates: Car = ₹2,000/day, Bike = ₹500/day.Late return penalty
+logic can accept delayed days or flat conditional application.Java Source CodeJavaimport java.util.
+Scanner;
+
+class VehicleRental {
+    String customerId;
+    String customerName;
+    String vehicleType;
+    int rentalDays;
+    int lateDays;
+
+    // 1. Read customer details
+    void readCustomerDetails() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter Customer ID: ");
+        customerId = scanner.nextLine();
+        System.out.print("Enter Customer Name: ");
+        customerName = scanner.nextLine();
+        System.out.print("Enter Vehicle Type (Car/Bike): ");
+        vehicleType = scanner.nextLine();
+        System.out.print("Enter Number of Rental Days: ");
+        rentalDays = scanner.nextInt();
+        System.out.print("Enter Late Return Days (0 if on time): ");
+        lateDays = scanner.nextInt();
+    }
+
+    // 2. Calculate rental charges
+    double calculateRentalCharges() {
+        if (vehicleType.equalsIgnoreCase("Car")) {
+            return rentalDays * 2000.0;
+        } else {
+            return rentalDays * 500.0;
+        }
+    }
+
+    // 3. Add a late return penalty if applicable (e.g., ₹200/day extra)
+    double calculatePenalty() {
+        return lateDays * 200.0;
+    }
+
+    // 4. Display final rental bill
+    void displayFinalBill() {
+        double rentalCharges = calculateRentalCharges();
+        double penalty = calculatePenalty();
+        double totalBill = rentalCharges + penalty;
+
+        System.out.println("\n--- Vehicle Rental Management Bill ---");
+        System.out.println("Customer ID    : " + customerId);
+        System.out.println("Customer Name  : " + customerName);
+        System.out.println("Vehicle Type   : " + vehicleType);
+        System.out.println("Rental Days    : " + rentalDays);
+        System.out.println("Rental Charges : ₹" + rentalCharges);
+        System.out.println("Late Penalty   : ₹" + penalty);
+        System.out.println("Final Bill     : ₹" + totalBill);
+    }
+}
+
+public class VehicleRentalManagementSystem {
+    public static void main(String[] args) {
+        VehicleRental rental = new VehicleRental();
+        rental.readCustomerDetails();
+        rental.displayFinalBill();
+    }
+}
+
+Q4. Manufacturing Production Monitoring SystemProgram Design & ApproachTracks and analyzes
+factory output benchmarks against performance indicators.Data Members: productId, productName,
+targetQuantity, and producedQuantity.Logic:Efficiency Formula: $\text{Efficiency} =
+\left(\frac{\text{Produced Quantity}}{\text{Target Quantity}}\right) \times 100$Status:
+Marked as Achieved if efficiency $\ge 100\%$, otherwise Not Achieved.
+Java Source CodeJavaimport java.util.Scanner;
+
+class ProductionMonitor {
+    String productId;
+    String productName;
+    int targetQuantity;
+    int producedQuantity;
+
+    // 1. Read product details
+    void readProductDetails() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter Product ID: ");
+        productId = scanner.nextLine();
+        System.out.print("Enter Product Name: ");
+        productName = scanner.nextLine();
+        System.out.print("Enter Target Quantity: ");
+        targetQuantity = scanner.nextInt();
+        System.out.print("Enter Produced Quantity: ");
+        producedQuantity = scanner.nextInt();
+    }
+
+    // 3. Calculate production efficiency percentage
+    double calculateEfficiency() {
+        if (targetQuantity == 0) return 0.0;
+        return ((double) producedQuantity / targetQuantity) * 100.0;
+    }
+
+    // 4. Display production status and evaluation
+    void displayProductionStatus() {
+        double efficiency = calculateEfficiency();
+        String status = (producedQuantity >= targetQuantity) ? "Achieved" : "Not Achieved";
+
+        System.out.println("\n--- Manufacturing Production Status ---");
+        System.out.println("Product ID        : " + productId);
+        System.out.println("Product Name      : " + productName);
+        System.out.println("Target Quantity   : " + targetQuantity);
+        System.out.println("Produced Quantity : " + producedQuantity);
+        System.out.println("Efficiency        : " + String.format("%.2f", efficiency) + "%");
+        System.out.println("Production Status : " + status);
+    }
+}
+
+public class ManufacturingProductionMonitoringSystem {
+    public static void main(String[] args) {
+        ProductionMonitor monitor = new ProductionMonitor();
+        monitor.readProductDetails();
+        monitor.displayProductionStatus();
+    }
+}
+Q5. Online Course Enrollment SystemProgram Design & ApproachManages registration handling, 
+academic pricing, and scholarship discounts for digital learning platforms.Data Members: studentId, 
+studentName, courseName, and courseFee.Logic:If the base course fee exceeds ₹20,000, 
+a 15% scholarship discount is applied.A standard registration fee of ₹500 is added to the
+final payable amount.Java Source CodeJavaimport java.util.Scanner;
+
+class CourseEnrollment {
+    String studentId;
+    String studentName;
+    String courseName;
+    double courseFee;
+    final double REGISTRATION_FEE = 500.0;
+
+    // 1. Read student and course details
+    void readEnrollmentDetails() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter Student ID: ");
+        studentId = scanner.nextLine();
+        System.out.print("Enter Student Name: ");
+        studentName = scanner.nextLine();
+        System.out.print("Enter Course Name: ");
+        courseName = scanner.nextLine();
+        System.out.print("Enter Course Fee: ");
+        courseFee = scanner.nextDouble();
+    }
+
+    // 2 & 3. Calculate payable amount with conditional scholarship discount
+    double calculatePayableAmount() {
+        double actualFee = courseFee;
+        if (courseFee > 20000.0) {
+            actualFee = courseFee - (courseFee * 0.15); // Apply 15% scholarship discount
+        }
+        return actualFee + REGISTRATION_FEE;
+    }
+
+    // 4. Display enrollment and payment details
+    void displayEnrollmentDetails() {
+        double finalPayable = calculatePayableAmount();
+        double discountApplied = (courseFee > 20000.0) ? (courseFee * 0.15) : 0.0;
+
+        System.out.println("\n--- Online Course Enrollment & Payment Details ---");
+        System.out.println("Student ID         : " + studentId);
+        System.out.println("Student Name       : " + studentName);
+        System.out.println("Course Name        : " + courseName);
+        System.out.println("Original Fee       : ₹" + courseFee);
+        System.out.println("Scholarship Disc.  : ₹" + discountApplied);
+        System.out.println("Registration Fee   : ₹" + REGISTRATION_FEE);
+        System.out.println("Total Payable Amount: ₹" + finalPayable);
+    }
+}
+
+public class OnlineCourseEnrollmentSystem {
+    public static void main(String[] args) {
+        CourseEnrollment enrollment = new CourseEnrollment();
+        enrollment.readEnrollmentDetails();
+        enrollment.displayEnrollmentDetails();
+    }
+}
+// End of AT3 Complete Assessment //
