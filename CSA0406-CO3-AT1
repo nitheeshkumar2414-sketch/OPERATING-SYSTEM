@@ -1,0 +1,168 @@
+NAME:P.NITHEESH KUMAR 
+REG.NO:192524051
+1.
+# Accept inputs from the user
+base_register = int(input("Enter Base Register: "))
+limit_register = int(input("Enter Limit Register: "))
+logical_address = int(input("Enter Logical Address: "))
+
+# Check validity and compute physical address
+if 0 <= logical_address < limit_register:
+    physical_address = base_register + logical_address
+    print(f"\nResult: Valid Address! The Physical Address is {physical_address}")
+else:
+    print("\nResult: Invalid Address! (Logical address must be less than the limit register)")
+
+
+OUTPUT :
+Enter Base Register: 1000
+Enter Limit Register: 400
+Enter Logical Address: 250
+
+Result: Valid Address! The Physical Address is 1250
+
+2.
+# Accept inputs from the user
+base_register = int(input("Enter Base Register: "))
+limit_register = int(input("Enter Limit Register: "))
+logical_address = int(input("Enter Logical Address: "))
+
+# Check validity and compute physical address
+if 0 <= logical_address < limit_register:
+    physical_address = base_register + logical_address
+    print(f"\nResult: Valid Address! The Physical Address is {physical_address}")
+else:
+    print("\nResult: Invalid Address! (Logical address must be less than the limit register)")
+
+OUTPUT :
+Enter Base Register: 1000
+Enter Limit Register: 400
+Enter Logical Address: 250
+
+Result: Valid Address! The Physical Address is 1250
+
+3.
+#include <stdio.h>
+
+int main() {
+    int page_size, n_pages, logical_addr, page_table[100];
+
+    // Take inputs
+    printf("Enter page size and number of pages: ");
+    scanf("%d %d", &page_size, &n_pages);
+    
+    printf("Enter frame number for each page (-1 if not in memory):\n");
+    for (int i = 0; i < n_pages; i++) {
+        printf("Page %d: ", i);
+        scanf("%d", &page_table[i]);
+    }
+
+    printf("Enter Logical Address: ");
+    scanf("%d", &logical_addr);
+
+    // Compute page number (p) and offset (d)
+    int p = logical_addr / page_size;
+    int d = logical_addr % page_size;
+
+    // Validate and translate
+    if (p < n_pages && p >= 0 && page_table[p] != -1) {
+        printf("\nTranslation: Page %d -> Frame %d\n", p, page_table[p]);
+        printf("Physical Address = %d\n", (page_table[p] * page_size) + d);
+    } else {
+        printf("\nError: Page Fault or Invalid Address!\n");
+    }
+
+    return 0;
+}
+
+
+OUTPUT:
+Enter page size and number of pages: 1024 3
+Enter frame number for each page (-1 if not in memory):
+Page 0: 5
+Page 1: 2
+Page 2: 8
+Enter Logical Address: 2500
+
+Translation: Page 2 -> Frame 8
+Physical Address = 8644
+
+4.
+#include <stdio.h>
+
+int main() {
+    float hit_ratio, tlb_time, mem_time;
+    float emat_with_tlb, emat_without_tlb;
+
+    // Take inputs
+    printf("Enter TLB hit ratio (e.g., 0.8 for 80%%): ");
+    scanf("%f", &hit_ratio);
+    
+    printf("Enter TLB access time (ns): ");
+    scanf("%f", &tlb_time);
+    
+    printf("Enter Main Memory access time (ns): ");
+    scanf("%f", &mem_time);
+
+    // EMAT without TLB (2 memory accesses: 1 for page table, 1 for actual data)
+    emat_without_tlb = 2 * mem_time;
+
+    // EMAT with TLB
+    emat_with_tlb = (hit_ratio * (tlb_time + mem_time)) + 
+                    ((1.0 - hit_ratio) * (tlb_time + 2 * mem_time));
+
+    // Display results
+    printf("\n--- Effective Memory Access Time (EMAT) ---\n");
+    printf("Without TLB : %.2f ns\n", emat_without_tlb);
+    printf("With TLB    : %.2f ns\n", emat_with_tlb);
+    printf("Performance Improvement (Time saved): %.2f ns\n", emat_without_tlb - emat_with_tlb);
+
+    return 0;
+}
+
+OUTPUT:
+Enter TLB hit ratio (e.g., 0.8 for 80%): 0.85
+Enter TLB access time (ns): 20
+Enter Main Memory access time (ns): 100
+
+--- Effective Memory Access Time (EMAT) ---
+Without TLB : 200.00 ns
+With TLB    : 135.00 ns
+Performance Improvement (Time saved): 65.00 ns
+
+5.
+#include <stdio.h>
+
+int main() {
+    int base, limit, logical_addr;
+
+    // Take inputs for memory constraints
+    printf("Enter Base Register: ");
+    scanf("%d", &base);
+    printf("Enter Limit Register: ");
+    scanf("%d", &limit);
+    
+    printf("Enter Logical Address to access: ");
+    scanf("%d", &logical_addr);
+
+    // Memory Protection Check
+    if (logical_addr >= 0 && logical_addr < limit) {
+        printf("\n[SUCCESS] Access Granted!\n");
+        printf("Mapped Physical Address: %d\n", base + logical_addr);
+    } else {
+        printf("\n[ERROR] Access Denied! Segmentation Fault.\n");
+        printf("Unauthorized access blocked: Address falls outside the valid limit.\n");
+    }
+
+    return 0;
+}
+
+OUTPUT:
+
+Enter Base Register: 5000
+Enter Limit Register: 1000
+Enter Logical Address to access: 450
+
+[SUCCESS] Access Granted!
+Mapped Physical Address: 5450
+
