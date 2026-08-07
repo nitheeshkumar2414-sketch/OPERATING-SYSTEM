@@ -1,19 +1,20 @@
 NAME:P.NITHEESH KUMAR 
 REG.NO:192524051
 1.
-# Accept inputs from the user
-base_register = int(input("Enter Base Register: "))
-limit_register = int(input("Enter Limit Register: "))
-logical_address = int(input("Enter Logical Address: "))
+#include <stdio.h>
 
-# Check validity and compute physical address
-if 0 <= logical_address < limit_register:
-    physical_address = base_register + logical_address
-    print(f"\nResult: Valid Address! The Physical Address is {physical_address}")
-else:
-    print("\nResult: Invalid Address! (Logical address must be less than the limit register)")
+int main() {
+    int b, l, a;
+    printf("Enter Base, Limit, and Logical Address: ");
+    scanf("%d %d %d", &b, &l, &a);
 
+    if (a >= 0 && a < l) 
+        printf("Valid Address! Physical Address: %d\n", b + a);
+    else 
+        printf("Invalid Address: Exceeds limit.\n");
 
+    return 0;
+}
 OUTPUT :
 Enter Base Register: 1000
 Enter Limit Register: 400
